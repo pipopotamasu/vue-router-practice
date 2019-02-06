@@ -1,16 +1,13 @@
 <template>
   <div class="container">
     <div class="tabs">
-      <TabItem
-        :label="'Tab1'"
-        :active="!$route.fullPath.includes('tab2')"
-        :key="1"
-        @switch-tab="onSwitchTab" />
-      <TabItem
-        :label="'Tab2'"
-        :active="$route.fullPath.includes('tab2')"
-        :key="2"
-        @switch-tab="onSwitchTab" />
+      <TabItem 
+        v-for="(tab, index) in tabs"
+        :label="tab.label"
+        :active="active(tab, index)"
+        :key="index"
+        @switch-tab="onSwitchTab(tab)"
+      />
     </div>
     <div class="contents">
       <router-view></router-view>
@@ -25,12 +22,23 @@ export default {
   components: {
     TabItem
   },
+  data () {
+    return {
+      tabs: [
+        { label: 'Tab1', route: 'tab1' },
+        { label: 'Tab2', route: 'tab2' }
+      ]
+    }
+  },
   methods: {
     onSwitchTab (tab) {
-      if (tab === 'Tab1') {
-        this.$router.push({ path: '/tabs/tab1' })
+      this.$router.push({ path: `/tabs/${tab.route}` })
+    },
+    active (tab, index) {
+      if (this.$route.path === '/tabs' || this.$route.path === '/tabs/') {
+        return index === 0
       } else {
-        this.$router.push({ path: '/tabs/tab2' })
+        return this.$route.path.includes(tab.route)
       }
     }
   }

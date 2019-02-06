@@ -12,12 +12,10 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'home',
       component: Home
     },
     {
       path: '/tabs',
-      name: 'tabs',
       component: Tabs,
       children: [
         {
