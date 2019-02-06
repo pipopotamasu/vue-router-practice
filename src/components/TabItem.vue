@@ -1,5 +1,5 @@
 <template>
-  <button @click="$emit('switch-tab', id)" :class="[active, 'tab']">
+  <button @click="$emit('switch-tab', label)" :class="[active ? 'active' : '', 'tab']">
     {{ label }}
   </button>
 </template>
@@ -7,14 +7,8 @@
 <script>
 export default {
   props: {
-    id: Number,
     label: String,
-    currentId: Number
-  },
-  computed: {
-    active() {
-      return this.currentId === this.id ? 'active' : false
-    }
+    active: Boolean
   }
 }
 </script>

@@ -2,25 +2,18 @@
   <div class="container">
     <div class="tabs">
       <TabItem
-        :id="1"
         :label="'Tab1'"
-        :currentId="currentId"
+        :active="!$route.fullPath.includes('tab2')"
         :key="1"
         @switch-tab="onSwitchTab" />
       <TabItem
-        :id="2"
         :label="'Tab2'"
-        :currentId="currentId"
+        :active="$route.fullPath.includes('tab2')"
         :key="2"
-         @switch-tab="onSwitchTab" />
+        @switch-tab="onSwitchTab" />
     </div>
     <div class="contents">
-      <section class="item" :key="currentId" v-show="currentId === 1">
-        Tab1が選択中
-      </section>
-      <section class="item" :key="currentId" v-show="currentId === 2">
-        Tab2が選択中
-      </section>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -32,14 +25,13 @@ export default {
   components: {
     TabItem
   },
-  data () {
-    return {
-      currentId: 1
-    }
-  },
   methods: {
-    onSwitchTab (id) {
-      this.currentId = id;
+    onSwitchTab (tab) {
+      if (tab === 'Tab1') {
+        this.$router.push({ path: '/tabs/tab1' })
+      } else {
+        this.$router.push({ path: '/tabs/tab2' })
+      }
     }
   }
 }

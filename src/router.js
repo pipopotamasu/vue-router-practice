@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Tabs from './views/Tabs.vue'
-
+import Content1 from './components/Content1.vue'
+import Content2 from './components/Content2.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -17,7 +18,21 @@ export default new Router({
     {
       path: '/tabs',
       name: 'tabs',
-      component: Tabs
+      component: Tabs,
+      children: [
+        {
+          path: '',
+          component: Content1
+        },
+        {
+          path: 'tab1',
+          component: Content1
+        },
+        {
+          path: 'tab2',
+          component: Content2
+        }
+      ]
     },
     {
       path: '/about',
