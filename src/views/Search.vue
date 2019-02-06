@@ -7,18 +7,29 @@
 </template>
 
 <script>
+import axios from 'axios'
+const QUERY_LIST = ['page']
+
 export default {
   data () {
     return {
       items: []
     }
   },
-  created () {
-    fetch('https://qiita.com/api/v2/items').then(res => {
-      return res.json()
-    }).then(items => {
-      this.items = items
+  async created () {
+    const res = await axios.get('https://qiita.com/api/v2/items', {
+      params: this.params
     })
+    this.items = res.data
+  },
+  computed: {
+    params () {
+      let params = {}
+      for (let key in this.$route.query) {
+        if(QUERY_LIST.includes(key)) params[key] = this.$route.query[key]
+      }
+      return params
+    }
   }
 }
 </script>
